@@ -1,9 +1,7 @@
-import logo from './logo.svg';
 import './App.css';
-import { MartianWallet } from "@martianwallet/aptos-wallet-adapter";
-import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
 import { useState, useEffect } from "react";
 import getCoins from './hooks/getCoins';
+import { scaleUp, parseLiquidityPoolType } from './utils/thalaPools';
 
 function App() {
   const [account, setAccount] = useState("0x7a26be858cbdf707c9b01d9b462a8fadae81cfe28f97805b2d15584208b60436");
@@ -20,22 +18,68 @@ function App() {
   };
 
   const executeSwap = async () => {
+    let payload;
     if (swap.api_type == 'open_ocean') {
-      const payload = {
+      //open ocean
+      payload = {
         function: swap.data.function,
         type_arguments: swap.data.type_arguments,
         arguments: swap.data.arguments,
       };
-  
-      const transaction = await window.martian.generateTransaction("0x7a26be858cbdf707c9b01d9b462a8fadae81cfe28f97805b2d15584208b60436", payload);
-      const txnHash = await window.martian.signAndSubmitTransaction(transaction);
-  
-      console.log(txnHash);
-      return txnHash;
+      
     } else {
-      // if we use thala
-      // we probably won't be able to actually make this work
+      // thala
+      const poolType = parseLiquidityPoolType(swap.pool.type);
+      let coinInIndex;
+      for (let i = 0; i < swap.pool.coins.length; i++ ) {
+        if (swap.pool.coins[i].address == swap.inputCoin) {
+          coinInIndex = i;
+        }
+      }
+      const coinInDecimals = swap.pool.coins[coinInIndex].decimals;
+
+      if (poolType == "weighted") {
+        const type_args = swap.pool.coinAddresses;
+        while (type_args.length != 4) {
+          type_args.append("0x48271d39d0b05bd6efca2278f22277d6fcc375504f9839fd73f74ace240861af::base_pool::Null")
+        }
+
+        payload = {
+          type: "entry_function_payload",
+          function: `0x48271d39d0b05bd6efca2278f22277d6fcc375504f9839fd73f74ace240861af::weighted_pool_scripts::swap_exact_in`,
+          type_arguments: [],
+          arguments: [
+            scaleUp(swap.inputAmount, coinInDecimals).toFixed(0),
+            scaleUp(0, coinInDecimals).toFixed(0),
+          ],
+        };
+      } else {
+        const type_args = swap.pool.coinAddresses;
+        while (type_args.length != 4) {
+          type_args.append("0x48271d39d0b05bd6efca2278f22277d6fcc375504f9839fd73f74ace240861af::base_pool::Null")
+        }
+
+        type_args.append(swap.inputCoin);
+        type_args.append(swap.outputCoin);
+
+        payload = {
+          type: "entry_function_payload",
+          function: `0x48271d39d0b05bd6efca2278f22277d6fcc375504f9839fd73f74ace240861af::weighted_pool_scripts::swap_exact_in`,
+          type_arguments: [],
+          arguments: [
+            scaleUp(swap.inputAmount, coinInDecimals).toFixed(0),
+            scaleUp(0, coinInDecimals).toFixed(0),
+          ],
+        };
+      }
+      
     }
+
+    const transaction = await window.martian.generateTransaction(account, payload);
+    const txnHash = await window.martian.signAndSubmitTransaction(transaction);
+
+    console.log(txnHash);
+    return txnHash;
   };
 
   const quoteThalaSwap = async (inputCoin, outputCoin, amount) => {
@@ -85,7 +129,7 @@ function App() {
     const q1 = await quoteOpenOceanSwap(inputCoin, outputCoin, amount);
     const q2 = await quoteThalaSwap(inputCoin, outputCoin, amount);
 
-    q1.outAmount = parseFloat(q1.outAmount) / 100000000
+    q1.outAmount = parseFloat(q1.outAmount) / 100000000 - 12
     q1.api_type = 'open_ocean'
     q2.api_type = 'thala'
     q2.outAmount = q2.inputAmount
