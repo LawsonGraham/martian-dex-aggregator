@@ -29,6 +29,7 @@ function App() {
       
     } else {
       // thala
+      // TODO: make this work for weighted pools
       const poolType = parseLiquidityPoolType(swap.pool.type);
       let coinInIndex;
       for (let i = 0; i < swap.pool.coins.length; i++ ) {
@@ -41,7 +42,7 @@ function App() {
       if (poolType == "weighted") {
         const type_args = swap.pool.coinAddresses;
         while (type_args.length != 4) {
-          type_args.append("0x48271d39d0b05bd6efca2278f22277d6fcc375504f9839fd73f74ace240861af::base_pool::Null")
+          type_args.push("0x48271d39d0b05bd6efca2278f22277d6fcc375504f9839fd73f74ace240861af::base_pool::Null")
         }
 
         payload = {
@@ -56,16 +57,16 @@ function App() {
       } else {
         const type_args = swap.pool.coinAddresses;
         while (type_args.length != 4) {
-          type_args.append("0x48271d39d0b05bd6efca2278f22277d6fcc375504f9839fd73f74ace240861af::base_pool::Null")
+          type_args.push("0x48271d39d0b05bd6efca2278f22277d6fcc375504f9839fd73f74ace240861af::base_pool::Null")
         }
 
-        type_args.append(swap.inputCoin);
-        type_args.append(swap.outputCoin);
+        type_args.push(swap.inputCoin);
+        type_args.push(swap.outputCoin);
 
         payload = {
           type: "entry_function_payload",
-          function: `0x48271d39d0b05bd6efca2278f22277d6fcc375504f9839fd73f74ace240861af::weighted_pool_scripts::swap_exact_in`,
-          type_arguments: [],
+          function: `0x48271d39d0b05bd6efca2278f22277d6fcc375504f9839fd73f74ace240861af::stable_pool_scripts::swap_exact_in`,
+          type_arguments: type_args,
           arguments: [
             scaleUp(swap.inputAmount, coinInDecimals).toFixed(0),
             scaleUp(0, coinInDecimals).toFixed(0),
@@ -126,21 +127,34 @@ function App() {
   const quote = async (inputCoin, outputCoin, amount) => {
     setSwapLoading(true)
     console.log('quoting...')
-    const q1 = await quoteOpenOceanSwap(inputCoin, outputCoin, amount);
-    const q2 = await quoteThalaSwap(inputCoin, outputCoin, amount);
+    let q1 = {};
+    let q2 = {};
+    try {
+      q1 = await quoteOpenOceanSwap(inputCoin, outputCoin, amount);
+    } catch {}
+    try {
+      q2 = await quoteThalaSwap(inputCoin, outputCoin, amount);
+    } catch {}
 
+    if (q1 != undefined) { // if the token isn't supported by open ocean
     q1.outAmount = parseFloat(q1.outAmount) / 100000000 - 12
     q1.api_type = 'open_ocean'
-    q2.api_type = 'thala'
-    q2.outAmount = q2.inputAmount
+    }
+
+    if (q2 != undefined) {
+      q2.api_type = 'thala'
+      q2.outAmount = q2.inputAmount
+    }
 
     console.log(q1)
     console.log(q2)
 
-    if (q1.outAmount > q2.outAmount) {
+    if (q1 && q2 && q1.outAmount > q2.outAmount) {
       setSwap(q1)
-    } else {
+    } else if (!q1 && q2) {
       setSwap(q2)
+    } else {
+      setSwap(q1)
     }
     setSwapLoading(false)
   }
@@ -163,7 +177,7 @@ function App() {
       <button onClick={executeSwap} className="large">
         makeSwap
       </button>
-      <button onClick={() => quote("0x84d7aeef42d38a5ffc3ccef853e1b82e4958659d16a7de736a29c55fbbeb0114::staked_aptos_coin::StakedAptosCoin", "0x1::aptos_coin::AptosCoin", 0.5)} className="large">
+      <button onClick={() => quote("0xa2eda21a58856fda86451436513b867c97eecb4ba099da5775520e0f7492e852::coin::T", "0x1::aptos_coin::AptosCoin", 0.5)} className="large">
         quote swaps
       </button>
       <button onClick={quoteThalaSwap} className="large">
