@@ -4,15 +4,17 @@ import AmountOut  from "./AmountOut.js";
 
 import { scaleUp, parseLiquidityPoolType } from "../utils/thalaPools";
 import styles from "../styles";
+import userEvent from "@testing-library/user-event";
 
 const Swap = ({coins, account}) => {
     const [swap, setSwap] = useState({});
     const [coinIn, setCoinIn] = useState(null);
     const [coinOut, setCoinOut] = useState(null);
+    const [swapInputAmount, setSwapInputAmount] = useState(0);
 
     const [swapLoading, setSwapLoading] = useState(false);
 
-    const executeSwap = async () => {
+    const executeSwap = async (inputCoin, outputCoin, amount) => {
         let payload;
         if (swap.api_type == "open_ocean") {
           //open ocean
@@ -51,15 +53,15 @@ const Swap = ({coins, account}) => {
                 );
             }
     
-            type_args.push(swap.inputCoin);
             type_args.push(swap.outputCoin);
-    
+            type_args.push(swap.inputCoin);
+
             payload = {
               type: "entry_function_payload",
               function: `0x48271d39d0b05bd6efca2278f22277d6fcc375504f9839fd73f74ace240861af::weighted_pool_scripts::swap_exact_in`,
               type_arguments: type_args,
               arguments: [
-                scaleUp(swap.inputAmount, coinInDecimals).toFixed(0),
+                scaleUp(swap.outputAmount, coinInDecimals).toFixed(0),
                 scaleUp(0, coinInDecimals).toFixed(0),
               ],
             };
@@ -79,7 +81,7 @@ const Swap = ({coins, account}) => {
               function: `0x48271d39d0b05bd6efca2278f22277d6fcc375504f9839fd73f74ace240861af::stable_pool_scripts::swap_exact_in`,
               type_arguments: type_args,
               arguments: [
-                scaleUp(swap.inputAmount, coinInDecimals).toFixed(0),
+                scaleUp(swap.outputAmount, coinInDecimals).toFixed(0),
                 scaleUp(0, coinInDecimals).toFixed(0),
               ],
             };
@@ -97,9 +99,8 @@ const Swap = ({coins, account}) => {
     };
 
     const quoteThalaSwap = async (inputCoin, outputCoin, amount) => {
-        // const res = await fetch(`http://localhost:3000/api/swap?input-coin=0x7fd500c11216f0fe3095d0c4b8aa4d64a4e2e04f83758462f2b127255643615::thl_coin::THL&output-coin=0x1::aptos_coin::AptosCoin&in-or-out-amount=10&pool-limit=3&in-for-out=true`,  {method: 'GET'})
         const res = await fetch(
-        `http://localhost:3000/api/swap?input-coin=${inputCoin}&output-coin=${outputCoin}&in-or-out-amount=${amount}&pool-limit=3&in-for-out=true`
+        `http://localhost:3000/api/swap?input-coin=${outputCoin}&output-coin=${inputCoin}&in-or-out-amount=${amount}&pool-limit=20&in-for-out=false`
         ).then(async (res) => {
         const response = await res.json();
 
@@ -180,18 +181,23 @@ const Swap = ({coins, account}) => {
         setSwap(q2);
         } else if (!q2 && q1) {
             setSwap(q1);
+        } else {
+            swap.outAmount = 0;
         }
         console.log(swap)
         setSwapLoading(false);
     };  
 
     return (
-        <div className='flex flex-col w-full items-center'>
+        <div className='flex flex-col w-full items-center position-absolute'>
       <div className='mb-8'>
-        <AmountIn coins={coins} swap={setSwap} quote={quote} coinOut={coinOut} setCoinIn={setCoinIn} coinIn={coinIn}/>
+        <AmountIn coins={coins} swap={setSwap} quote={quote} coinOut={coinOut} setCoinIn={setCoinIn} coinIn={coinIn} setSwapInputAmount={setSwapInputAmount} swapInputAmount={swapInputAmount} />
         <AmountOut coins={coins} swap={swap} coinOut={coinOut} setCoinOut={setCoinOut} />
         </div>
-        <button className="sexyButton">Exectute Swap</button>
+        <div className="text-white" >slippage: {swap.outAmount ? +((swap.outAmount / (swap.outAmount * 1.1 + 0.0001)) / 1060) : 0}%</div>
+        <div className="text-white" >fee: {swap.outAmount ? +((swap.outAmount * .03)) : 0} {coinOut ? coinOut.name : ""}</div>
+
+        <button className="sexyButton" onClick={() => executeSwap(coinIn.customAddress, coinOut.customAddress, swapInputAmount)}>Exectute Swap</button>
 
         </div>
 

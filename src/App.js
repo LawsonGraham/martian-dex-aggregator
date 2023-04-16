@@ -5,7 +5,8 @@ import { scaleUp, parseLiquidityPoolType } from "./utils/thalaPools";
 import styles from "./styles";
 import WalletButton from "./components/WalletButton";
 import Swap from  "./components/Swap.js";
-//import Exchange from "./components/Exchange";
+import mars from './assets/mars.jpg';
+
 
 function App() {
   const [account, setAccount] = useState(
@@ -188,10 +189,10 @@ function App() {
 
   return (
 
-<div className={styles.container} style={{overflow: "hidden"}}>
+<div  className={styles.container} style={{overflow: "hidden", backgroundImage: `url(${mars})`}}>
       <div className={styles.innerContainer}>
         <header className={styles.header}>
-          <WalletButton setAccount={setAccount} />
+          <WalletButton className="sexyButton" setAccount={setAccount} />
         </header>
         <div className={styles.exchangeContainer}>
           <h1 className={styles.headTitle}> Martian DEX</h1>

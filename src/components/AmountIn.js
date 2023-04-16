@@ -5,11 +5,10 @@ import { chevronDown } from "../assets";
 import styles from "../styles";
 import useOnClickOutside  from "../utils/useClickOutside";
 
-const AmountOut = ({onChange, currencyValue, onSelect, coins, swap, quote, coinOut, coinIn, setCoinIn}) => {
+const AmountOut = ({onChange, currencyValue, onSelect, coins, swap, quote, coinOut, coinIn, setCoinIn, swapInputAmount, setSwapInputAmount}) => {
     const [showList, setShowList] = useState(false);
 
     const [activeCurrency, setActiveCurrency] = useState("Select");
-    const [swapInputAmount, setSwapInputAmount] = useState("Select");
 
     const ref = useRef();
 
