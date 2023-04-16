@@ -24,9 +24,8 @@ const AmountOut = ({onChange, currencyValue, onSelect, coins, swap, quote, coinO
     }, []);
 
     useEffect(() => {
-        console.log('werewre')
-        quote(coinIn, coinOut, swapInputAmount)
-    }, [swapInputAmount]);
+        if (coinIn && coinOut && swapInputAmount) quote(coinIn.customAddress, coinOut.customAddress, swapInputAmount)
+    }, [swapInputAmount, coinIn, coinOut]);
 
     return (
         <div className={styles.amountContainer}>
@@ -39,13 +38,14 @@ const AmountOut = ({onChange, currencyValue, onSelect, coins, swap, quote, coinO
             />
             <div className='relative' onClick={() => setShowList(!showList)}>
                 <button className={styles.currencyButton}>
-                    {coinIn.name}
+                    {coinIn ? coinIn.name : "Select"}
                     <img
                         src={chevronDown}
                         alt="chevron-down"
                         className={`w-4 h-4 object-contain ml-4 ${showList ? 'rotate-180' : 'rotate-0'}`}
                     />
                 </button>
+                <div className="currencyList">
                 {showList && (
                     <ul className={styles.currencyList}>
                         {coins.map((coin, index) => (
@@ -66,6 +66,7 @@ const AmountOut = ({onChange, currencyValue, onSelect, coins, swap, quote, coinO
 
                     </ul>
                 )}
+                </div>
 
             </div>
         </div>

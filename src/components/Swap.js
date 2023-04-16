@@ -7,8 +7,8 @@ import styles from "../styles";
 
 const Swap = ({coins, account}) => {
     const [swap, setSwap] = useState({});
-    const [coinIn, setCoinIn] = useState("Select");
-    const [coinOut, setCoinOut] = useState("Select");
+    const [coinIn, setCoinIn] = useState(null);
+    const [coinOut, setCoinOut] = useState(null);
 
     const [swapLoading, setSwapLoading] = useState(false);
 
@@ -99,13 +99,12 @@ const Swap = ({coins, account}) => {
     const quoteThalaSwap = async (inputCoin, outputCoin, amount) => {
         // const res = await fetch(`http://localhost:3000/api/swap?input-coin=0x7fd500c11216f0fe3095d0c4b8aa4d64a4e2e04f83758462f2b127255643615::thl_coin::THL&output-coin=0x1::aptos_coin::AptosCoin&in-or-out-amount=10&pool-limit=3&in-for-out=true`,  {method: 'GET'})
         const res = await fetch(
-        `http://localhost:3000/api/swap?input-coin=${inputCoin}&output-coin=${outputCoin}&in-or-out-amount=${amount}&pool-limit=3&in-for-out=false`
+        `http://localhost:3000/api/swap?input-coin=${inputCoin}&output-coin=${outputCoin}&in-or-out-amount=${amount}&pool-limit=3&in-for-out=true`
         ).then(async (res) => {
         const response = await res.json();
 
         if (response) {
             const data = response.data;
-            // const result = await this.myWallet.sdk.eth.sendTransaction(swapParams);
             return data;
         } else {
             return;
@@ -117,8 +116,10 @@ const Swap = ({coins, account}) => {
 
     const quoteOpenOceanSwap = async (inputCoin, outputCoin, amount) => {
         const chain = "aptos";
-        const inTokenAddress = inputCoin.split("::")[0];
-        const outTokenAddress = outputCoin.split("::")[0];
+        console.log(inputCoin)
+        const inTokenAddress = inputCoin;
+        console.log(outputCoin)
+        const outTokenAddress = outputCoin;
         const gasPrice = 5;
         const slippage = 1;
         const res = await fetch(
@@ -142,16 +143,16 @@ const Swap = ({coins, account}) => {
         console.log("quoting...");
         let q1 = {};
         let q2 = {};
-        try {
+        // try {
         q1 = await quoteOpenOceanSwap(inputCoin, outputCoin, amount);
-        } catch {}
+        // } catch {}
         try {
         q2 = await quoteThalaSwap(inputCoin, outputCoin, amount);
         } catch {}
 
         if (q1 != undefined) {
         // if the token isn't supported by open ocean
-        q1.outAmount = parseFloat(q1.outAmount) / 100000000;
+        q1.outAmount = parseFloat(q1.outAmount) / (10 ** q1.outToken.decimals);
         q1.api_type = "open_ocean";
         }
 
@@ -163,17 +164,26 @@ const Swap = ({coins, account}) => {
         console.log(q1);
         console.log(q2);
 
-        if (q1 && q2 && q1.outAmount > q2.outAmount) {
-        setSwap(q1);
+        if (q1 && q2) {
+            if (q2.outAmount && q1.outAmount && q1.outAmount > q2.outAmount) {
+                setSwap(q1);
+            } else if (q2.outAmount && q1.outAmount && q1.outAmount <= q2.outAmount) {
+                setSwap(q2);
+            } else if (!q1.outAmount && q2.outAmount) {
+                setSwap(q2);
+            } else if (!q2.outAmount && q1.outAmount) {
+                setSwap(q1);
+            } else {
+                setSwap(null)
+            }
         } else if (!q1 && q2) {
         setSwap(q2);
-        } else {
-        setSwap(q1);
+        } else if (!q2 && q1) {
+            setSwap(q1);
         }
         console.log(swap)
         setSwapLoading(false);
-    };
-
+    };  
 
     return (
         <div className='flex flex-col w-full items-center'>
@@ -181,6 +191,7 @@ const Swap = ({coins, account}) => {
         <AmountIn coins={coins} swap={setSwap} quote={quote} coinOut={coinOut} setCoinIn={setCoinIn} coinIn={coinIn}/>
         <AmountOut coins={coins} swap={swap} coinOut={coinOut} setCoinOut={setCoinOut} />
         </div>
+        <button className="sexyButton">Exectute Swap</button>
 
         </div>
 

@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+.currencyList {
+  max-height: 120px;
+  background-color: black;
+  overflow-y: scroll;
+  position: relative;
+}

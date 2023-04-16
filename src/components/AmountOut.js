@@ -13,24 +13,18 @@ const AmountOut = ({onChange, currencyValue, onSelect, coins, coinOut, setCoinOu
 
     useOnClickOutside(ref, () => setShowList(false))
 
-    useEffect(() => {
-        // if (Object.keys(currencies).includes(currencyValue))
-        //     setActiveCurrency(currencyValue);
-        setCoinOut("Select");
-    }, []);
-
     return (
         <div className={styles.amountContainer}>
             <input
                 placeholder='0'
                 type="number"
-                value={swap}
+                value={swap && swap.outAmount ? swap.outAmount.toFixed(4) : 0}
                 disabled
                 className={styles.amountInput}
             />
             <div className='relative' onClick={() => setShowList(!showList)}>
                 <button className={styles.currencyButton}>
-                    {coinOut}
+                    {coinOut ? coinOut.name : "Select"}
                     <img
                         src={chevronDown}
                         alt="chevron-down"
@@ -46,9 +40,10 @@ const AmountOut = ({onChange, currencyValue, onSelect, coins, coinOut, setCoinOu
                                     'bg-site-dim2' : ''} cursor-pointer`}
                                 onClick={() => {
                                     // if (typeof onSelect === "function") onSelect(token);
-                                    setCoinOut(coin.name);
+                                    setCoinOut(coin);
                                     setShowList(false);
                                 }}
+                        
                             >
                                 {coin.name}
                             </li>

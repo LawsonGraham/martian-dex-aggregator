@@ -188,7 +188,7 @@ function App() {
 
   return (
 
-<div className={styles.container}>
+<div className={styles.container} style={{overflow: "hidden"}}>
       <div className={styles.innerContainer}>
         <header className={styles.header}>
           <WalletButton setAccount={setAccount} />
