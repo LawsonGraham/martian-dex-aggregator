@@ -71,9 +71,10 @@ html, body {
     color: white;
     background-color: black;
     align-items: center;
+    padding: 3px;
     margin-top: 8px;
     width: 90%;
-    height: 180px;
+    height: 100%;
     border-radius: 12px;
     transition: 0.4s all;
 }
@@ -94,6 +95,6 @@ html, body {
     transform: scale(1.05);
 }
 .sexyButton2:hover {
-    background-color: rgba(255,255,255,1);
-    transform: scale(1.05);
+    background-color: black;
+    transform: scale(1.25);
 }

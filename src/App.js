@@ -34,6 +34,7 @@ function App() {
         <header className={styles.header} style={{zIndex: 69}}>
           <WalletButton className="sexyButton" setAccount={setAccount}/>
         </header>
+        <img src="https://static.vecteezy.com/system/resources/previews/008/507/067/original/3d-astronaut-flies-in-open-space-rigged-character-you-can-make-any-pose-cartoon-spaceman-png.png" style={{zIndex: 0, position: "fixed", height: 300, pointerEvents: "none", right: 300, top: 400, transform: "rotateZ(30deg)"}}/>
         <div className={styles.exchangeContainer}>
           <h1 className={styles.headTitle} style={{zIndex: 69}}> Martian DEX</h1>
           <p className={styles.subTitle}>Exchange tokens in seconds</p>
@@ -50,7 +51,6 @@ function App() {
       </div>
       <img src={"https://cdn.discordapp.com/attachments/1097000989204172851/1097032589409263666/3d-astronaut-flies-in-open-space-rigged-character-you-can-make-any-pose-cartoon-spaceman-png.png"} alt="image" style={{ zIndex: 82, position: "fixed", height: 700, left: 60, top: 250, pointerEvents: "none"}}/>
       <img src="https://cdn.discordapp.com/attachments/1097000989204172851/1097035515917762650/mars-in-3d-render-for-graphic-asset-web-presentation-or-other-png.png" style={{zIndex: 83, position: "fixed", height: 600, pointerEvents: "none", right: -200, top: -300}}/>
-      <img src="https://static.vecteezy.com/system/resources/previews/008/507/067/original/3d-astronaut-flies-in-open-space-rigged-character-you-can-make-any-pose-cartoon-spaceman-png.png" style={{zIndex: 83, position: "fixed", height: 600, pointerEvents: "none", right: -100, top: 350}}/>
       
     </div>
     

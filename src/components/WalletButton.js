@@ -17,8 +17,8 @@ const WalletButton = ({ setAccount }) => {
       onClick={connectMartian}
       className="sexyButton2"
     >
-      {rendered === "" && "Connect Wallet"}
-      {rendered !== "" && rendered.substring(0, 7) + "..."}
+      {rendered === "" && <div className="text-white font-poppins font-black">{"Connect Wallet"}</div>}
+      {rendered !== "" && <div className="text-white font-poppins font-black ">{rendered.substring(0, 7) + "..."}</div>}
     </button >
   );
 

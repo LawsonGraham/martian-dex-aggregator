@@ -5,8 +5,8 @@ const styles = {
     "flex justify-between items-center flex-col max-w-[1280px] w-full",
   header: "flex flex-row justify-between items-center w-full sm:py-10 py-6",
   exchangeContainer:
-    "flex-1 flex justify-start items-center flex-col w-full mt-10 " ,
-  headTitle: "text-white font-poppins font-black text-5xl tracking-tight",
+    "shadow-lg flex-1 flex justify-start items-center flex-col w-full mt-10 ",
+  headTitle: "text-white font-poppins font-black text-6xl tracking-tight",
   subTitle: "text-dim-white font-poppins font-medium mt-3 text-base",
   exchangeBoxWrapper: "mt-10 w-full flex justify-around",
   exchangeBox:

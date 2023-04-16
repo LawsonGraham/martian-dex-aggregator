@@ -194,10 +194,10 @@ const Swap = ({coins, account}) => {
         <AmountIn coins={coins} swap={setSwap} quote={quote} coinOut={coinOut} setCoinIn={setCoinIn} coinIn={coinIn} setSwapInputAmount={setSwapInputAmount} swapInputAmount={swapInputAmount} />
         <AmountOut coins={coins} swap={swap} coinOut={coinOut} setCoinOut={setCoinOut} />
         </div>
-        <div className="text-white">slippage: {swap.outAmount ? +((swap.outAmount / (swap.outAmount * 1.1 + 0.0001)) / 1060) : 0}%</div>
-        <div className="text-white" >fee: {swap.outAmount ? +((swap.outAmount * .03)) : 0} {coinOut ? coinOut.name : ""}</div>
+        <div className="text-white text-white font-poppins">Slippage: {swap.outAmount ? +((swap.outAmount / (swap.outAmount * 1.1 + 0.0001)) / 1060).toFixed(5) : 0}%</div>
+        <div className="text-white text-white font-poppins" >Fee: {swap.outAmount ? +((swap.outAmount * .03)).toFixed(5) : 0} {coinOut ? coinOut.name : ""}</div>
         
-        <button className="sexyButton" onClick={() => executeSwap(coinIn.customAddress, coinOut.customAddress, swapInputAmount)}>{swapLoading ? <img src={"https://media0.giphy.com/media/F6O1O2saVuBbYCfZhm/200w.gif?cid=6c09b9524z7adapx69ykiys8jsrs29kphit4xd93k3am2sxv&rid=200w.gif&ct=g"} alt="image" style={{ height: 55 }}/> : "Exectute Swap"}</button>
+        <button className="sexyButton" onClick={() => executeSwap(coinIn.customAddress, coinOut.customAddress, swapInputAmount)}>{swapLoading ? <img src={"https://media0.giphy.com/media/F6O1O2saVuBbYCfZhm/200w.gif?cid=6c09b9524z7adapx69ykiys8jsrs29kphit4xd93k3am2sxv&rid=200w.gif&ct=g"} alt="image" style={{ height: 55, position: "relative", left: 126 }}/> : <div className="p-4 text-white font-poppins font-black text-l">Exectute Swap</div>}</button>
         
         </div>
 
