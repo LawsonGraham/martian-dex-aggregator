@@ -2,6 +2,10 @@ import "./App.css";
 import { useState, useEffect } from "react";
 import getCoins from "./hooks/getCoins";
 import { scaleUp, parseLiquidityPoolType } from "./utils/thalaPools";
+import styles from "./styles";
+import WalletButton from "./components/WalletButton";
+import Swap from  "./components/Swap.js";
+//import Exchange from "./components/Exchange";
 
 function App() {
   const [account, setAccount] = useState(
@@ -11,12 +15,6 @@ function App() {
   const [coinsLoading, setCoinsLoading] = useState(true);
   const [swap, setSwap] = useState({});
   const [swapLoading, setSwapLoading] = useState(false);
-
-  const connectMartian = async () => {
-    const response = await window.martian.connect();
-    console.log(response);
-    setAccount(response.address);
-  };
 
   const executeSwap = async () => {
     let payload;
@@ -189,39 +187,66 @@ function App() {
   });
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between p-24">
-      <button onClick={executeSwap} className="large">
-        makeSwap
-      </button>
-      <button
-        onClick={() =>
-          quote(
-            "0x7fd500c11216f0fe3095d0c4b8aa4d64a4e2e04f83758462f2b127255643615::thl_coin::THL",
-            "0x1::aptos_coin::AptosCoin",
-            0.5
-          )
-        }
-        className="large"
-      >
-        quote swaps
-      </button>
-      <button onClick={quoteThalaSwap} className="large">
-        quote thala
-      </button>
-      <button onClick={connectMartian} className="large">
-        connectMartian
-      </button>
-      {!coinsLoading &&
-        coins.map((coin) => {
-          return <div>coin: {coin.name}</div>;
-        })}
-      {swapLoading ? (
-        <div>loading</div>
-      ) : (
-        <div>swap type chosen: {swap.api_type}</div>
-      )}
+
+<div className={styles.container}>
+      <div className={styles.innerContainer}>
+        <header className={styles.header}>
+          <WalletButton setAccount={setAccount} />
+        </header>
+        <div className={styles.exchangeContainer}>
+          <h1 className={styles.headTitle}> Martian DEX</h1>
+          <p className={styles.subTitle}>Exchange tokens in seconds</p>
+          <div className={styles.exchangeBoxWrapper}>
+            <div className={styles.exchangeBox}>
+              <div className="pink_gradient" />
+              <div className={styles.exchange}>
+              
+                <Swap/>
+               
+
+
+              </div>
+              <div className="blue_gradient" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
+
+  //   <div className= {styles.walletButton}>
+  //     <button onClick={executeSwap} className="large">
+  //       makeSwap
+  //     </button>
+  //     <button
+  //       onClick={() =>
+  //         quote(
+  //           "0x7fd500c11216f0fe3095d0c4b8aa4d64a4e2e04f83758462f2b127255643615::thl_coin::THL",
+  //           "0x1::aptos_coin::AptosCoin",
+  //           0.5
+  //         )
+  //       }
+  //       className={styles.walletButton}
+  //     >
+  //       quote swaps
+  //     </button>
+  //     <button onClick={quoteThalaSwap} className="large">
+  //       quote thala
+  //     </button>
+  //     {account == "" ? <button onClick={connectMartian} className="large">
+  //       connectMartian
+  //     </button> : <div> Account: {account} </div>}
+  //     {!coinsLoading &&
+  //       coins.map((coin) => {
+  //         return <div>coin: {coin.name}</div>;
+  //       })}
+  //     {swapLoading ? (
+  //       <div>loading</div>
+  //     ) : (
+  //       <div>swap type chosen: {swap.api_type}</div>
+  //     )}
+  //   </div>
+  // );
 }
 
 export default App;
