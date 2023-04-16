@@ -200,11 +200,7 @@ function App() {
             <div className={styles.exchangeBox}>
               <div className="pink_gradient" />
               <div className={styles.exchange}>
-              
-                <Swap/>
-               
-
-
+                <Swap coins={coins} account={account}/>
               </div>
               <div className="blue_gradient" />
             </div>

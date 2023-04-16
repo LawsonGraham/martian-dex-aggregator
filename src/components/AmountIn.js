@@ -3,76 +3,76 @@ import React, { useState, useEffect, useRef } from "react";
 import { chevronDown } from "../assets";
 
 import styles from "../styles";
-import useOnClickOutside  from "../utils/useOnClickOutside";
+import useOnClickOutside  from "../utils/useClickOutside";
 
-
-const AmountIn = ({value, onChange, currencyValue, onSelect,}) => {
+const AmountOut = ({onChange, currencyValue, onSelect, coins, swap, quote, coinOut, coinIn, setCoinIn}) => {
     const [showList, setShowList] = useState(false);
-    const [activeCurrency, setActiveCurrency] = useState("Select");
 
-    const currencies = { "btc": "btc", "eth": "eth" };
+    const [activeCurrency, setActiveCurrency] = useState("Select");
+    const [swapInputAmount, setSwapInputAmount] = useState("Select");
+
+    const ref = useRef();
+
+    const amountOut = 10000; // INSERT CONVERSION FUNCTION 
 
     useOnClickOutside(ref, () => setShowList(false))
 
-    const checker = () => {
-        console.log("availableTokens");
-        console.log();
-        console.log(currencyValue);
-        console.log(availableTokens);
-        console.log(activeCurrency);
-        return "0";
-      }
+    useEffect(() => {
+        // if (Object.keys(currencies).includes(currencyValue))
+        //     setActiveCurrency(currencyValue);
+        setActiveCurrency("Select");
+    }, []);
 
+    useEffect(() => {
+        console.log('werewre')
+        quote(coinIn, coinOut, swapInputAmount)
+    }, [swapInputAmount]);
 
-    return(
-    <div className={styles.amountContainer}>
-      <input
-        placeholder={checker()}
-        type="number"
-        value={value}
-        disabled={isSwapping}
-        onChange={(e) => typeof onChange === "function" && onChange(e.target.value)}
-        className={styles.amountInput}
-      />
+    return (
+        <div className={styles.amountContainer}>
+            <input
+                placeholder='0'
+                type="number"
+                value={swapInputAmount}
+                onChange={(e) => setSwapInputAmount(e.target.value)}
+                className={styles.amountInput}
+            />
+            <div className='relative' onClick={() => setShowList(!showList)}>
+                <button className={styles.currencyButton}>
+                    {coinIn.name}
+                    <img
+                        src={chevronDown}
+                        alt="chevron-down"
+                        className={`w-4 h-4 object-contain ml-4 ${showList ? 'rotate-180' : 'rotate-0'}`}
+                    />
+                </button>
+                {showList && (
+                    <ul className={styles.currencyList}>
+                        {coins.map((coin, index) => (
+                            <li
+                                key={index}
+                                className={`${styles.currencyListItem} ${showList ?
+                                    'bg-site-dim2' : ''} cursor-pointer`}
+                                onClick={() => {
+                                    // if (typeof onSelect === "function") onSelect(token);
+                                    setCoinIn(coin);
+                                    setShowList(false);
+                                }}
+                            >
+                                {coin.name}
+                            </li>
+                        ))
+                        }
 
-<div className="relative" onClick={() => setShowList((prevState) => !prevState)}>
-        <button className={styles.currencyButton}>
-          {activeCurrency}
-          <img
-            src={chevronDown}
-            alt="cheveron-down"
-            className={`w-4 h-4 object-contain ml-2 ${
-              showList ? "rotate-180" : "rotate-0"
-              }`}
-          />
-        </button>
-      </div>
-      {showList && (
-          <ul ref={ref} className={styles.currencyList}>
-            {Object.entries(currencies).map(([token, tokenName], index) => (
-              <li
-                key={index}
-                className={`${styles.currencyListItem} ${
-                  activeCurrency === tokenName ? "bg-site-dim2" : ""
-                  } cursor-pointer`}
+                    </ul>
+                )}
 
-                onClick={() => {
-                  if (typeof onSelect === "function") onSelect(token);
-                  setActiveCurrency(tokenName);
-                  setShowList(false);
-                }}
-              >
-                {tokenName}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-
-
-      
+            </div>
+        </div>
 
     )
 }
 
-export default AmountIn;
+export default AmountOut;
+
+

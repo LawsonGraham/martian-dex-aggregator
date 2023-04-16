@@ -1,4 +1,6 @@
-export const useOnClickOutside = (ref, handler) => {
+
+import React, { useState, useEffect, useRef } from "react";
+const useOnClickOutside = (ref, handler) => {
     useEffect(() => {
       const listener = (event) => {
         // Do nothing if clicking ref's element or descendent elements
@@ -17,3 +19,5 @@ export const useOnClickOutside = (ref, handler) => {
       };
     }, [ref, handler]);
   }
+
+  export default useOnClickOutside;
