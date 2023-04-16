@@ -1,6 +1,6 @@
 # Quasar
 ## Swap your way across the galaxy
-[![IMAGE_ALT](https://img.youtube.com/vi/UmX4kyB2wfg/0.jpg)](https://www.youtube.com/watch?v=UmX4kyB2wfg)
+[video demo](https://www.youtube.com/watch?v=UmX4kyB2wfg)
 
 Quasar is a DEX Aggregator built for the move ecosystem, aggregating multiple different APIs and protocols to find the best routes throughout all of Aptos
 ## Available Scripts
