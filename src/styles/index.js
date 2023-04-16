@@ -6,13 +6,13 @@ const styles = {
   header: "flex flex-row justify-between items-center w-full sm:py-10 py-6",
   exchangeContainer:
     "flex-1 flex justify-start items-center flex-col w-full mt-10 " ,
-  headTitle: "text-white font-poppins font-black text-5xl tracking-wide",
+  headTitle: "text-white font-poppins font-black text-5xl tracking-tight",
   subTitle: "text-dim-white font-poppins font-medium mt-3 text-base",
   exchangeBoxWrapper: "mt-10 w-full flex justify-around",
   exchangeBox:
     "flex justify-around relative md:max-w-[700px] md:max-h-[600px] md:min-h-[400px] md:min-w-[500px] min-w-full max-w-full gradient-border p-[2px] rounded-3xl",
   exchange:
-    "position-absolute w-full max-w-[400px] min-w-[400px] min-h-[400px] max-h-[400px] bg-site-orange backdrop-blur-[4px] rounded-3xl shadow-card flex p-10",
+    "position-absolute w-full max-w-[400px] min-w-[400px] min-h-[400px] max-h-[400px] bg-site-orange backdrop-blur-[4px] rounded-3xl shadow-card flex p-6",
 
   // AmountIn & AmountOut
   amountContainer:

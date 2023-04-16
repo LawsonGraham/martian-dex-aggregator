@@ -47,6 +47,7 @@
 .amountContainer {
   border: 1px solid rgba(255,255,255,0);
   transition: 0.4s all;
+  margin-bottom: 10px;
 }
 
 .amountContainer:hover {
