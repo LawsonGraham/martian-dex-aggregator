@@ -5,7 +5,7 @@ import { scaleUp, parseLiquidityPoolType } from "./utils/thalaPools";
 import styles from "./styles";
 import WalletButton from "./components/WalletButton";
 import Swap from  "./components/Swap.js";
-import mars from './assets/mars.jpg';
+import {astr} from './assets/astr.jpg';
 import ShootingStarBackground from "./components/ShootingStars.js";
 
 
@@ -189,15 +189,17 @@ function App() {
   });
 
   return (
-<div>
-      <ShootingStarBackground />
-<div  className={styles.container} style={{overflow: "hidden", backgroundImage: `url(${mars})`}}>
+<div className={styles.container} style={{overflow: "hidden", zIndex: 2}}>
+    <ShootingStarBackground />  
+    {/* <div>
+    <img src={astr} alt="image" />
+    </div> */}
       <div className={styles.innerContainer}>
-        <header className={styles.header}>
-          <WalletButton className="sexyButton" setAccount={setAccount} />
+        <header className={styles.header} style={{zIndex: 69}}>
+          <WalletButton className="sexyButton" setAccount={setAccount}/>
         </header>
         <div className={styles.exchangeContainer}>
-          <h1 className={styles.headTitle}> Martian DEX</h1>
+          <h1 className={styles.headTitle} style={{zIndex: 69}}> Martian DEX</h1>
           <p className={styles.subTitle}>Exchange tokens in seconds</p>
           <div className={styles.exchangeBoxWrapper}>
             <div className={styles.exchangeBox}>
@@ -211,7 +213,7 @@ function App() {
         </div>
       </div>
     </div>
-    </div>
+  
   );
 
   //   <div className= {styles.walletButton}>

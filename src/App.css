@@ -44,12 +44,16 @@
   position: relative;
 }
 
-.shooting-star-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #000000;
+.amountContainer {
+  border: 1px solid rgba(255,255,255,0);
+  transition: 0.4s all;
 }
 
+.amountContainer:hover {
+  border: 1px solid rgba(255,255,255,1);
+}
+
+.amountInput {
+  outline: none;
+  padding-right: 10px;
+}

@@ -32,7 +32,7 @@ const AmountOut = ({onChange, currencyValue, onSelect, coins, swap, quote, coinO
             <input
                 placeholder='0'
                 type="number"
-                value={swapInputAmount}
+                value={swapInputAmount != 0 ? swapInputAmount : null}
                 onChange={(e) => setSwapInputAmount(e.target.value)}
                 className={styles.amountInput}
             />
@@ -46,7 +46,7 @@ const AmountOut = ({onChange, currencyValue, onSelect, coins, swap, quote, coinO
                         className={`w-4 h-4 object-contain ml-4 ${showList ? 'rotate-180' : 'rotate-0'}`}
                     />
                 </button> */}
-                <Dropdown coinIn={coinIn} coins={coins} setCoinIn={setCoinIn} />
+                <Dropdown coin1={coinIn} coins={coins} setCoin={setCoinIn} />
 
                 {/* <div className="currencyList">
                 {showList && (

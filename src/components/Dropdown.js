@@ -1,20 +1,20 @@
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { ReactSVG } from "react-svg";
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example({ coinIn, coins, setCoinIn }) {
+export default function Example({ coin1, coins, setCoin }) {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300">
-          {coinIn ? <div>
-            <img src={coinIn.icon} style={{height: "20px", display: "inline-block", marginRight: "10px"}}></img>
-                    {coinIn.name}
+          {coin1 ? <div>
+            <img src={coin1.icon} style={{height: "20px", display: "inline-block", marginRight: "10px"}}></img>
+                    {coin1.name}
           </div>
             
            : "Select"}
@@ -39,10 +39,10 @@ export default function Example({ coinIn, coins, setCoinIn }) {
                     key={index}
                     onClick={() => {
                         // if (typeof onSelect === "function") onSelect(token);
-                        setCoinIn(coin);
+                        setCoin(coin);
                     }}
                 >
-                    {coin.symbol == 'MOD' || coin.symbol == 'THL' ? <ReactSVG src={coin.icon} /> : <img src={coin.icon} style={{height: "20px", display: "inline-block", marginRight: "10px"}}></img>}
+                    {<img src={coin.icon} style={{height: "20px", display: "inline-block", marginRight: "10px"}}></img>}
                     {coin.name}
                 </li>
                 </Menu.Item>
