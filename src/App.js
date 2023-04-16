@@ -6,6 +6,7 @@ import styles from "./styles";
 import WalletButton from "./components/WalletButton";
 import Swap from  "./components/Swap.js";
 import mars from './assets/mars.jpg';
+import ShootingStarBackground from "./components/ShootingStars.js";
 
 
 function App() {
@@ -188,7 +189,8 @@ function App() {
   });
 
   return (
-
+<div>
+      <ShootingStarBackground />
 <div  className={styles.container} style={{overflow: "hidden", backgroundImage: `url(${mars})`}}>
       <div className={styles.innerContainer}>
         <header className={styles.header}>
@@ -208,6 +210,7 @@ function App() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 

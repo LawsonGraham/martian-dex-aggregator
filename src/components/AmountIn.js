@@ -4,6 +4,7 @@ import { chevronDown } from "../assets";
 
 import styles from "../styles";
 import useOnClickOutside  from "../utils/useClickOutside";
+import Dropdown from "./Dropdown";
 
 const AmountOut = ({onChange, currencyValue, onSelect, coins, swap, quote, coinOut, coinIn, setCoinIn, swapInputAmount, setSwapInputAmount}) => {
     const [showList, setShowList] = useState(false);
@@ -36,15 +37,18 @@ const AmountOut = ({onChange, currencyValue, onSelect, coins, swap, quote, coinO
                 className={styles.amountInput}
             />
             <div className='relative' onClick={() => setShowList(!showList)}>
-                <button className={styles.currencyButton}>
+                {/* <button className={styles.currencyButton}>
+                    {coinIn && (<img src={coinIn.icon} style={{height: "20px", display: "inline-block", marginRight: "10px"}}></img>)}
                     {coinIn ? coinIn.name : "Select"}
                     <img
                         src={chevronDown}
                         alt="chevron-down"
                         className={`w-4 h-4 object-contain ml-4 ${showList ? 'rotate-180' : 'rotate-0'}`}
                     />
-                </button>
-                <div className="currencyList">
+                </button> */}
+                <Dropdown coinIn={coinIn} coins={coins} setCoinIn={setCoinIn} />
+
+                {/* <div className="currencyList">
                 {showList && (
                     <ul className={styles.currencyList}>
                         {coins.map((coin, index) => (
@@ -58,6 +62,7 @@ const AmountOut = ({onChange, currencyValue, onSelect, coins, swap, quote, coinO
                                     setShowList(false);
                                 }}
                             >
+                                <img src={coin.icon} style={{height: "20px", display: "inline-block", marginRight: "10px"}}></img>
                                 {coin.name}
                             </li>
                         ))
@@ -65,7 +70,7 @@ const AmountOut = ({onChange, currencyValue, onSelect, coins, swap, quote, coinO
 
                     </ul>
                 )}
-                </div>
+                </div> */}
 
             </div>
         </div>

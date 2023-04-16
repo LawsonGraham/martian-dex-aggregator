@@ -18,14 +18,14 @@ export default async function getCoins() {
       name: "Move Dollar",
       coinGeckoName: "usd-coin",
       decimals: 8,
-      icon: "TokenMod",
+      icon: "../assets/TokenMod.svg",
     },
     {
       customAddress: `0x7fd500c11216f0fe3095d0c4b8aa4d64a4e2e04f83758462f2b127255643615::thl_coin::THL`,
       symbol: "THL",
       name: "Thala Token",
       decimals: 8,
-      icon: "TokenThl",
+      icon: "../assets/TokenThl.svg",
       coinGeckoName: "thala",
     },
   ];

@@ -24,6 +24,7 @@ const AmountOut = ({onChange, currencyValue, onSelect, coins, coinOut, setCoinOu
             />
             <div className='relative' onClick={() => setShowList(!showList)}>
                 <button className={styles.currencyButton}>
+                    {coinOut && (<img src={coinOut.icon} style={{height: "20px", display: "inline-block", marginRight: "10px"}}></img>)}
                     {coinOut ? coinOut.name : "Select"}
                     <img
                         src={chevronDown}
@@ -45,6 +46,7 @@ const AmountOut = ({onChange, currencyValue, onSelect, coins, coinOut, setCoinOu
                                 }}
                         
                             >
+                                <img src={coin.icon} style={{height: "20px", display: "inline-block", marginRight: "10px"}}></img>
                                 {coin.name}
                             </li>
                         ))
