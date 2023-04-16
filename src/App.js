@@ -36,8 +36,8 @@ function App() {
         </header>
         <img src="https://static.vecteezy.com/system/resources/previews/008/507/067/original/3d-astronaut-flies-in-open-space-rigged-character-you-can-make-any-pose-cartoon-spaceman-png.png" style={{zIndex: 0, position: "fixed", height: 300, pointerEvents: "none", right: 300, top: 400, transform: "rotateZ(30deg)"}}/>
         <div className={styles.exchangeContainer}>
-          <h1 className={styles.headTitle} style={{zIndex: 69}}> Martian DEX</h1>
-          <p className={styles.subTitle}>Exchange tokens in seconds</p>
+          <h1 className={styles.headTitle} style={{zIndex: 69}}> Quasar 🪐</h1>
+          <p className={styles.subTitle} style={{zIndex: 70}}>Exchange tokens from across the galaxy...</p>
           <div className={styles.exchangeBoxWrapper}>
             <div className={styles.exchangeBox}>
               <div className="pink_gradient" />
